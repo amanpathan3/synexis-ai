@@ -4,16 +4,3 @@ node_modules/
 # Python
 venv/
 __pycache__/
-
-# Env
-.env
-
-# Uploads
-uploads/
-
-# Logs
-*.log
-
-# OS
-.DS_Store
-Thumbs.db
