@@ -14,6 +14,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
+
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -33,15 +34,13 @@ const Login = () => {
         formData
       );
 
-      console.log(res.data);
-
-      // 🔥 Save token
+      // Save Token
       localStorage.setItem(
         "token",
         res.data.token
       );
 
-      // 🔥 Save user data
+      // Save User
       localStorage.setItem(
         "user",
         JSON.stringify(res.data)
@@ -67,71 +66,87 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-950">
 
-      <div className="w-full max-w-md bg-zinc-900 p-8 rounded-2xl border border-zinc-800 shadow-2xl">
+    <div className="min-h-screen bg-[#f5f7fb] flex items-center justify-center px-4">
 
-        <h1 className="text-3xl font-bold text-center text-white mb-2">
+      <div className="w-full max-w-md bg-white border border-gray-200 rounded-3xl shadow-xl p-8">
+
+        {/* Logo */}
+        <div className="flex items-center justify-center mb-6">
+
+          <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center">
+
+            <h1 className="text-2xl font-bold text-blue-600">
+              S
+            </h1>
+
+          </div>
+
+        </div>
+
+        {/* Heading */}
+        <h1 className="text-4xl font-bold text-center text-gray-800">
           Welcome Back
         </h1>
 
-        <p className="text-zinc-400 text-center mb-8">
+        <p className="text-gray-500 text-center mt-3 mb-8">
           Login to Synexis AI
         </p>
 
+        {/* Form */}
         <form
           onSubmit={handleSubmit}
           className="space-y-5"
         >
 
-          {/* EMAIL */}
+          {/* Email */}
           <div>
 
-            <label className="text-sm text-zinc-300">
-              Email
+            <label className="text-sm font-medium text-gray-600">
+              Email Address
             </label>
 
             <input
               type="email"
               name="email"
-              placeholder="Enter email"
+              placeholder="Enter your email"
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full mt-2 p-3 rounded-xl bg-zinc-800 border border-zinc-700 outline-none focus:border-emerald-500"
+              className="w-full mt-2 p-4 rounded-2xl border border-gray-300 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
             />
 
           </div>
 
-          {/* PASSWORD */}
+          {/* Password */}
           <div>
 
-            <label className="text-sm text-zinc-300">
+            <label className="text-sm font-medium text-gray-600">
               Password
             </label>
 
             <input
               type="password"
               name="password"
-              placeholder="Enter password"
+              placeholder="Enter your password"
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full mt-2 p-3 rounded-xl bg-zinc-800 border border-zinc-700 outline-none focus:border-emerald-500"
+              className="w-full mt-2 p-4 rounded-2xl border border-gray-300 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
             />
 
           </div>
 
-          {/* BUTTON */}
+          {/* Button */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-emerald-500 hover:bg-emerald-600 transition-all duration-300 p-3 rounded-xl font-semibold text-black"
+            className="w-full bg-blue-600 hover:bg-blue-700 transition-all duration-300 text-white p-4 rounded-2xl font-semibold text-lg shadow-md"
           >
 
             {
               loading
-                ? "Logging in..."
+                ? "Logging In..."
                 : "Login"
             }
 
@@ -139,13 +154,14 @@ const Login = () => {
 
         </form>
 
-        <p className="text-zinc-400 text-center mt-6">
+        {/* Footer */}
+        <p className="text-gray-500 text-center mt-8">
 
           Don’t have an account?{" "}
 
           <Link
             to="/register"
-            className="text-emerald-400 hover:underline"
+            className="text-blue-600 font-semibold hover:underline"
           >
             Register
           </Link>
@@ -153,6 +169,7 @@ const Login = () => {
         </p>
 
       </div>
+
     </div>
   );
 };

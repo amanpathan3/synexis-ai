@@ -1,31 +1,32 @@
-import Sidebar from "../components/Sidebar"
+import { useState } from "react";
+
+import Sidebar from "../components/Sidebar";
 import UploadResume from "../components/UploadResume";
 import JobsSection from "../components/JobsSection";
+import Home from "../components/Home";
 
 const Dashboard = () => {
 
+  const [activePage, setActivePage] = useState("home");
+
   return (
-    <div className="flex">
 
-      {/* SIDEBAR */}
-      <Sidebar />
+    <div className="flex bg-[#f5f7fb] min-h-screen">
 
-      {/* MAIN */}
-      <div className="flex-1 bg-zinc-950 min-h-screen p-8">
+      {/* Sidebar */}
+      <Sidebar
+        activePage={activePage}
+        setActivePage={setActivePage}
+      />
 
-        <h1 className="text-4xl font-bold mb-8">
-          AI Career Dashboard
-        </h1>
+      {/* Main Content */}
+      <div className="flex-1 p-6 md:p-10">
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {activePage === "home" && <Home />}
 
-          {/* LEFT */}
-          <UploadResume />
+        {activePage === "resume" && <UploadResume />}
 
-          {/* RIGHT */}
-          <JobsSection />
-
-        </div>
+        {activePage === "jobs" && <JobsSection />}
 
       </div>
 

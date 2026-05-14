@@ -1,5 +1,6 @@
 import { useState } from "react";
 import API from "../services/api";
+import { UploadCloud } from "lucide-react";
 
 const UploadResume = () => {
 
@@ -36,9 +37,6 @@ const UploadResume = () => {
         }
       );
 
-      console.log(res.data);
-
-      // 🔥 Save extracted skills
       setSkills(res.data);
 
       alert("Resume Uploaded Successfully");
@@ -59,59 +57,113 @@ const UploadResume = () => {
   };
 
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-xl">
 
-      <h2 className="text-2xl font-bold mb-2">
-        Upload Resume
-      </h2>
+    <div className="max-w-4xl mx-auto">
 
-      <p className="text-zinc-400 mb-6">
-        Upload your PDF resume to extract skills
-      </p>
+      {/* Header */}
+      <div className="mb-8">
 
-      {/* FILE INPUT */}
-      <input
-        type="file"
-        accept=".pdf"
-        onChange={(e) =>
-          setResume(e.target.files[0])
-        }
-        className="w-full bg-zinc-800 p-3 rounded-xl border border-zinc-700"
-      />
+        <h1 className="text-4xl font-bold text-gray-800">
+          Resume Analysis
+        </h1>
 
-      {/* BUTTON */}
-      <button
-        onClick={handleUpload}
-        disabled={loading}
-        className="w-full mt-5 bg-emerald-500 hover:bg-emerald-600 transition-all duration-300 p-3 rounded-xl font-semibold text-black"
-      >
+        <p className="text-gray-500 mt-2 text-lg">
+          Upload your resume and extract AI-powered skills
+        </p>
 
-        {
-          loading
-            ? "Uploading..."
-            : "Upload Resume"
-        }
+      </div>
 
-      </button>
+      {/* Upload Card */}
+      <div className="bg-white border border-gray-200 rounded-3xl p-8 shadow-sm">
 
-      {/* SKILLS */}
+        {/* Upload Icon */}
+        <div className="w-20 h-20 bg-blue-100 rounded-2xl flex items-center justify-center mb-6">
+
+          <UploadCloud
+            size={40}
+            className="text-blue-600"
+          />
+
+        </div>
+
+        <h2 className="text-2xl font-semibold text-gray-800">
+          Upload Resume
+        </h2>
+
+        <p className="text-gray-500 mt-2 mb-8">
+          Supported format: PDF
+        </p>
+
+        {/* File Input */}
+        <label className="w-full flex flex-col items-center justify-center border-2 border-dashed border-blue-200 rounded-3xl p-10 cursor-pointer hover:bg-blue-50 transition">
+
+          <input
+            type="file"
+            accept=".pdf"
+            hidden
+            onChange={(e) =>
+              setResume(e.target.files[0])
+            }
+          />
+
+          <UploadCloud
+            size={40}
+            className="text-blue-500 mb-4"
+          />
+
+          <p className="text-gray-700 font-medium">
+            Click to Upload Resume
+          </p>
+
+          <span className="text-sm text-gray-400 mt-2">
+            PDF files only
+          </span>
+
+          {
+            resume && (
+              <p className="mt-4 text-blue-600 font-medium">
+                {resume.name}
+              </p>
+            )
+          }
+
+        </label>
+
+        {/* Upload Button */}
+        <button
+          onClick={handleUpload}
+          disabled={loading}
+          className="w-full mt-8 bg-blue-600 hover:bg-blue-700 transition-all duration-300 text-white p-4 rounded-2xl font-semibold text-lg shadow-md"
+        >
+
+          {
+            loading
+              ? "Uploading Resume..."
+              : "Upload & Extract Skills"
+          }
+
+        </button>
+
+      </div>
+
+      {/* Skills Section */}
       {
         skills.length > 0 && (
 
-          <div className="mt-6">
+          <div className="bg-white border border-gray-200 rounded-3xl p-8 shadow-sm mt-8">
 
-            <h3 className="text-lg font-semibold mb-3">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">
               Extracted Skills
-            </h3>
+            </h2>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-4">
 
               {
                 skills.map((skill, index) => (
 
                   <span
                     key={index}
-                    className="bg-emerald-500/20 text-emerald-400 px-4 py-2 rounded-xl text-sm border border-emerald-500/30"
+                    className="bg-blue-100 text-blue-700 px-5 py-3 rounded-2xl font-medium border border-blue-200"
                   >
                     {skill}
                   </span>
