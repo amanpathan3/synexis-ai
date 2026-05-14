@@ -1,22 +1,25 @@
 const axios = require("axios");
 const Job = require("../models/Job");
+const User = require("../models/User");
 
+// ✅ FETCH + SAVE JOBS BASED ON USER DOMAIN
 exports.fetchJobs = async (req, res) => {
   try {
-    const { domain } = req.query;
+    // 🔥 Get user domain
+    const user = await User.findById(req.user._id);
+    const domain = user.domain;
 
     if (!domain) {
-      return res.status(400).json({ error: "Domain is required" });
+      return res.status(400).json({ error: "User domain not set" });
     }
 
-    // 🔹 Fetch jobs
+    // 🔹 Call API
     const response = await axios.get(
       "https://arbeitnow.com/api/job-board-api"
     );
 
     const jobs = response.data.data;
 
-    // 🔥 SMART FILTER (title + description + fallback)
     const keywords = domain.toLowerCase().split(" ");
 
     let filteredJobs = jobs.filter(job =>
@@ -26,7 +29,6 @@ exports.fetchJobs = async (req, res) => {
       )
     );
 
-    // 🔥 FALLBACK (if nothing matched, take top jobs)
     if (filteredJobs.length === 0) {
       filteredJobs = jobs.slice(0, 10);
     }
@@ -56,10 +58,29 @@ exports.fetchJobs = async (req, res) => {
       }
     }
 
-    res.json(savedJobs);
+    res.json({
+      message: "Jobs fetched & saved",
+      jobs: savedJobs
+    });
 
   } catch (err) {
     console.log(err.message);
     res.status(500).json({ error: "Error fetching jobs" });
+  }
+};
+
+
+// ✅ GET JOBS FROM DB FOR USER
+exports.getUserJobs = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+
+    const jobs = await Job.find({ domain: user.domain })
+      .sort({ createdAt: -1 });
+
+    res.json(jobs);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };

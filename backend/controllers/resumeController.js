@@ -1,5 +1,6 @@
 const axios = require("axios");
 const path = require("path");
+const userModel = require("../models/User");
 
 exports.uploadResume = async (req, res) => {
   try {
@@ -14,7 +15,15 @@ exports.uploadResume = async (req, res) => {
       }
     );
 
-    res.json(response.data);
+    const skills = response.data.skills;
+    
+    await userModel.findByIdAndUpdate(
+      req.user._id,
+      { $set: { skills: skills } },
+      { new: true }
+    );
+
+    res.json(response.data.skills);
 
   } catch (error) {
     console.log(error.message);

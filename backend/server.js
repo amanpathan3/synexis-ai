@@ -5,9 +5,16 @@ require("dotenv").config();
 
 // ✅ Create app
 const app = express();
+const fetchJobsCron = require("./cron/jobCron");
 
+// 🔥 Start cron
+fetchJobsCron();
+const cookieParser = require("cookie-parser");
+
+app.use(cookieParser());
 // ✅ Middleware
 app.use(cors());
+
 app.use(express.json());
 
 // ✅ DB Connection
